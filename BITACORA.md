@@ -24,7 +24,7 @@
 | 12/10 – 18/10 | | 2 / 2 | 25 | 15 | 37 |
 | 19/10 – 25/10 | Checkpoint 2 (28/10) | 4 / 7 | 22 | 9 | 47 |
 | 26/10 – 01/11 | | 2 / 10 | 14 | 51 | 107 |
-| 02/11 – 08/11 | (en curso) | 3 / 3 | 14 | 12 | 13 |
+| 02/11 – 08/11 | (en curso) | 4 / 6 | 12 | 24 | 32 |
 
 Commits sin merges ni los de Dependabot, de todas las ramas de los diez repos. Los PRs incluyen los de
 release (`develop → main`).
@@ -188,11 +188,11 @@ RabbitMQ.
 
 ## Semana 10: 02/11 – 08/11 (en curso)
 
-**Backlog:** +3 / −3, quedan 14 abiertos.
-- Se cierran login con proveedor federado [Op#33], reordenar jerarquía de roles [Op#56] y el prototipo
-  (orquestador #1).
-- Se abren 2FA [Op#35] (Auth #35) y la adaptación de la observabilidad a la nueva infraestructura
-  (observability #4).
+**Backlog:** +4 / −6, quedan 12 abiertos.
+- Se cierran login con proveedor federado [Op#33], reordenar jerarquía de roles [Op#56], 2FA [Op#35], el
+  pub/sub del chat (Chat #7), la adaptación de la observabilidad a la nueva infraestructura
+  (observability #4) y el prototipo (orquestador #1).
+- Se abre adjuntar archivos en mensajes [Op#47] (Chat #38).
 
 **Entregado:**
 - **Backoffice, etapa 0:** app aparte en el monorepo (`apps/backoffice`, WebApp #62), con su login de Auth0,
@@ -202,14 +202,32 @@ RabbitMQ.
 - **Login con Google** [Op#33]: en web y mobile, con onboarding del perfil. Auth vincula la identidad federada
   a la cuenta existente si el email está verificado (Auth #34, WebApp #66).
 - **Reordenar la jerarquía de roles** [Op#56] (Server-Roles #85, WebApp #65).
+- **2FA** [Op#35]: TOTP con código QR, códigos de recuperación de un solo uso y desactivación, en web y
+  mobile (Auth #36, WebApp #69).
+- **Pub/sub del chat** (Chat #36): los mensajes se reparten entre instancias por Redis, como pide el ADR 0006.
+  Cierra el RNF que quedaba abierto desde la semana 2.
+- **Estado de la plataforma en el backoffice:** Notification-Audit-Metrics consulta los `/readyz` de cada
+  servicio y expone `GET /api/v1/status` y `/api/v1/admin/status` (#23, con su ADR-02); Kong publica los
+  `/readyz` internos y métricas de Prometheus (Gateway #23); el backoffice muestra el estado en vivo
+  (WebApp #67). La observabilidad se adapta a los tres nodos (observability #5, orquestador #29). Es la base
+  de [Op#74]; faltan los incidentes.
 - Mobile: los builds de release conservan las clases de WebRTC (reglas de R8).
-- Releases a `main` el 02/11 de Chat, WebApp, Gateway, Server-Roles y el orquestador.
+- Releases a `main` el 02/11 de Chat, WebApp, Gateway, Server-Roles y el orquestador, y el 03/11 de WebApp,
+  Gateway, Notification, observability y el orquestador.
+
+**En revisión:** **adjuntos en mensajes** [Op#47]. Chat sube el archivo (hasta 10 MB, con lista de formatos)
+a S3 o, si no está configurado, al disco, y lo guarda con el mensaje (Chat #39); Kong expone la descarga sin
+token (Gateway #24); web y mobile adjuntan y muestran el archivo (WebApp #70). Para producción falta darle S3
+a Chat en el compose y en Terraform. También en revisión: los perfiles de identidades federadas en las
+consultas masivas de usuarios (Auth #38).
 
 **Decisiones:**
 - El rol `staff` sale de `app_metadata.role` de Auth0, que solo se cambia desde el Dashboard o la Management
   API, y lo valida el backend en cada ruta de staff. Ver `Gateway/docs/ADR-002-Rol-Staff-Backoffice.md`.
 - Alcance del Checkpoint 3: las cuatro obligatorias que faltan y 18 optativas (74 pts), para cerrar con 221
-  pts sobre un mínimo de 216. Ver `docs/PLAN-CHECKPOINT-3.md`.
+  pts sobre un mínimo de 216 (02/11). El 03/11 se suman adjuntos [Op#47] y llamada de voz privada [Op#50],
+  para completar el bloque de mensajes directos junto con DM [Op#42] y bloqueo [Op#43]: el cierre previsto
+  pasa a 239 pts. Ver `PLAN-CHECKPOINT-3.md`.
 
 ---
 
@@ -221,14 +239,17 @@ RabbitMQ.
 
 **RNF que faltan:**
 - endpoints de staff del backoffice (la app y el rol `staff` ya están);
-- pub/sub entre instancias del chat (Chat #7);
+- S3 para los adjuntos de Chat en producción;
 - pruebas de carga;
 - contratos OpenAPI de los servicios en Node, y su verificación;
 - cobertura ≥ 70 % medida por servicio;
 - proteger `main` (no se puede con el plan Free en repos privados).
 
-**Optativas hechas:** login con proveedor federado [Op#33], estado personalizado [Op#38], reordenar canales
-[Op#41], menciones [Op#46], indicador de quién habla [Op#51], silenciar a otro localmente [Op#52], video en
-llamada [Op#54], eliminar rol [Op#55], reordenar jerarquía de roles [Op#56], ver miembros por rol [Op#58],
-expulsar miembro [Op#59] y silenciar temporalmente [Op#60]. Suman 43 pts. Con las 28 obligatorias (96 pts),
-el total es 139 pts.
+**Optativas hechas:** login con proveedor federado [Op#33], 2FA [Op#35], estado personalizado [Op#38],
+reordenar canales [Op#41], menciones [Op#46], indicador de quién habla [Op#51], silenciar a otro localmente
+[Op#52], video en llamada [Op#54], eliminar rol [Op#55], reordenar jerarquía de roles [Op#56], ver miembros
+por rol [Op#58], expulsar miembro [Op#59] y silenciar temporalmente [Op#60]. Suman 48 pts. Con las 28 obligatorias (96 pts),
+el total es 144 pts.
+
+**Optativas en curso:** adjuntos [Op#47] (en revisión), y configuración del servidor [Op#39], permisos por
+canal [Op#57] y estado de la plataforma [Op#74], parciales.

@@ -14,11 +14,11 @@
 | | Hechas | Puntos hechos | Comprometidas CP3 | Puntos al cierre del CP3 | Total |
 |---|---:|---:|---:|---:|---:|
 | **Obligatorias** | 28 / 32 | **96** | 4 (8 pts) | **104** | 104 |
-| **Optativas** | 12 / 49 | **43** | 18 (74 pts) | **117** | 229 |
-| **Total** | 40 / 81 | **139** | 22 (82 pts) | **221** | 333 |
+| **Optativas** | 13 / 49 | **48** | 19 (87 pts) | **135** | 229 |
+| **Total** | 41 / 81 | **144** | 23 (95 pts) | **239** | 333 |
 
 Mínimo de la cátedra para 6 integrantes: 104 obligatorios + 112 optativos = **216 pts**. Hoy faltan 8
-obligatorios y 69 optativos.
+obligatorios y 64 optativos. El alcance del Checkpoint 3 deja 23 pts de margen sobre el mínimo.
 
 ## 1. Historias obligatorias (96 / 104)
 
@@ -38,7 +38,7 @@ obligatorios y 69 optativos.
 | 12 | ✅ | | Editar canal | Canales | 2 | Server-Roles #33 |
 | 13 | ✅ | | Eliminar canal | Canales | 2 | Server-Roles #30 |
 | 14 | ✅ | | Organizar canales en categorías | Canales | 3 | `POST /servers/{id}/categories`. E2E `channels.spec.ts` |
-| 15 | ✅ | | Enviar mensaje en un canal | Mensajería | 8 | Chat (WebSocket + MongoDB + RabbitMQ). E2E `chat.spec.ts`. Falta el RNF de pub/sub entre instancias (Chat #7) |
+| 15 | ✅ | | Enviar mensaje en un canal | Mensajería | 8 | Chat (WebSocket + MongoDB + RabbitMQ). E2E `chat.spec.ts`. Pub/sub entre instancias con Redis (Chat #36) |
 | 16 | ✅ | | Historial y reconexión | Mensajería | 13 | `GET /channels/{id}/messages`, WebApp #29 y #43 (paginación) |
 | 17 | ✅ | | Unirse a canal de voz de servidor | Canal de Voz | 11 | LiveKit + Voice (`/join-token`), WebApp #21, #26 |
 | 18 | ✅ | | Salir de canal de voz | Canal de Voz | 1 | Voice `/leave` y webhooks de LiveKit (#18) |
@@ -61,28 +61,28 @@ Las cuatro que faltan son del backoffice (`Discordia-WebApp/apps/backoffice`): l
 y deshabilitadas (`src/features.ts`) hasta que exista cada endpoint de staff, según el checklist de
 `Gateway/docs/ADR-002-Rol-Staff-Backoffice.md`.
 
-## 2. Historias optativas (43 / 229)
+## 2. Historias optativas (48 / 229)
 
 | # | Estado | CP3 | Historia | Épica | Pts | Evidencia / notas |
 | -: | :-: | :-: | --- | --- | -: | --- |
 | 33 | ✅ | | Login con proveedor federado | Usuarios | 5 | Google en web y mobile, vinculación por email verificado. Auth #34, WebApp #66 |
 | 34 | ⬜ | | Registro con PIN | Usuarios | 2 | |
-| 35 | ⬜ | ● | Autenticación de dos factores (2FA) | Usuarios | 5 | Con MFA de Auth0 (Auth #35) |
+| 35 | ✅ | | Autenticación de dos factores (2FA) | Usuarios | 5 | TOTP con QR y códigos de recuperación, en web y mobile. Auth #36, WebApp #69 |
 | 36 | ⬜ | ● | Visualización de perfil público | Perfil | 2 | |
 | 37 | ⬜ | | Estado de actividad | Perfil | 5 | |
 | 38 | ✅ | | Estado personalizado | Perfil | 2 | `custom_status` (64 caracteres) en Auth |
 | 39 | 🟡 | ● | Administrar configuración del servidor | Servidores | 3 | Solo el ícono (Server-Roles #74, WebApp #40). Falta `PATCH /servers/{id}` para el nombre |
 | 40 | ⬜ | ● | Eliminar servidor | Servidores | 5 | |
 | 41 | ✅ | | Reordenar canales | Canales | 2 | `PUT /servers/{id}/channels/order` (Server-Roles #9, PR #40) |
-| 42 | ⬜ | ● | Enviar mensaje directo (DM) | Mensajería | 8 | |
-| 43 | ⬜ | ● | Bloquear y desbloquear usuarios | Mensajería | 3 | |
+| 42 | ⬜ | ● | Enviar mensaje directo (DM) | Mensajería | 8 | Base de #43 y #50. El historial y la reconexión de #16 y los adjuntos de #47 aplican también a los DM |
+| 43 | ⬜ | ● | Bloquear y desbloquear usuarios | Mensajería | 3 | Corta los DM y las llamadas privadas (#50); el historial previo se conserva |
 | 44 | ⬜ | ● | Editar mensaje | Mensajería | 3 | |
 | 45 | ⬜ | ● | Eliminar mensaje | Mensajería | 3 | |
 | 46 | ✅ | | Menciones | Mensajería | 5 | Usuario, rol y `@everyone`; cuenta en no leídos. Chat #34 (ADR-03), Server-Roles #83, WebApp #61 |
-| 47 | ⬜ | | Adjuntar archivos en mensajes | Mensajería | 5 | |
+| 47 | 🟡 | ● | Adjuntar archivos en mensajes | Mensajería | 5 | En revisión: Chat #39, Gateway #24, WebApp #70 (issue Chat #38). Hasta 10 MB, con lista de formatos. En producción Chat no tiene S3 configurado |
 | 48 | ⬜ | ● | Reacciones con emoji | Mensajería | 3 | |
 | 49 | ⬜ | | Buscar mensajes | Mensajería | 5 | |
-| 50 | ⬜ | | Iniciar y recibir llamada de voz privada | Canal de Voz | 13 | |
+| 50 | ⬜ | ● | Iniciar y recibir llamada de voz privada | Canal de Voz | 13 | Se inicia desde un DM (#42) y respeta el bloqueo (#43). Sala de LiveKit 1 a 1 en Voice |
 | 51 | ✅ | | Indicador de quién está hablando | Canal de Voz | 3 | Eventos de audio de LiveKit, WebApp #22 |
 | 52 | ✅ | | Silenciar a otro participante localmente | Canal de Voz | 2 | WebApp #24 (web) y #28 (mobile) |
 | 53 | ⬜ | | Compartir pantalla | Canal de Voz | 8 | Ya existe el permiso `SCREEN_SHARE` en Server-Roles |
@@ -106,7 +106,7 @@ y deshabilitadas (`src/features.ts`) hasta que exista cada endpoint de staff, se
 | 71 | ⬜ | ● | Ver métricas globales de la plataforma | Métricas | 5 | Grafana no alcanza: la historia es una pantalla del backoffice |
 | 72 | ⬜ | ● | Gráfico de crecimiento de miembros | Métricas | 3 | Depende de #70 |
 | 73 | ⬜ | ● | Exportar métricas a CSV | Métricas | 3 | Depende de #70 o #71 |
-| 74 | ⬜ | ● | Estado de la plataforma e incidentes | Métricas | 5 | Están los `/readyz`; falta la pantalla del backoffice |
+| 74 | 🟡 | ● | Estado de la plataforma e incidentes | Métricas | 5 | Estado en vivo a partir de los `/readyz` en el backoffice (Notification #23, Gateway #23, WebApp #67). Faltan publicar y resolver incidentes y el aviso en la app |
 | 75 | ⬜ | | Gestionar emojis personalizados del servidor | Monetización | 5 | |
 | 76 | ⬜ | | Suscribirse a Plan Premium | Monetización | 13 | Payments es solo el esqueleto, con CI/CD |
 | 77 | ⬜ | | Cancelar suscripción Premium | Monetización | 3 | Depende de #76 |
@@ -119,7 +119,7 @@ y deshabilitadas (`src/features.ts`) hasta que exista cada endpoint de staff, se
 
 | Épica | Hechas | Puntos hechos / disponibles |
 |---|---:|---:|
-| Usuarios | 1 / 3 | 5 / 12 |
+| Usuarios | 2 / 3 | 10 / 12 |
 | Perfil | 1 / 3 | 2 / 9 |
 | Servidores | 0 / 2 | 0 / 8 |
 | Canales | 1 / 1 | 2 / 2 |
