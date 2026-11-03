@@ -212,14 +212,11 @@ RabbitMQ.
   (WebApp #67). La observabilidad se adapta a los tres nodos (observability #5, orquestador #29). Es la base
   de [Op#74]; faltan los incidentes.
 - Mobile: los builds de release conservan las clases de WebRTC (reglas de R8).
+- **Adjuntos en mensajes** [Op#47]: subida y envío de imágenes, audio, video y documentos hasta 10 MB. Chat guarda el archivo (en disco local con volumen persistente o S3) y emite el mensaje con adjuntos (Chat #39); Kong expone la descarga pública por `/api/v1/chat/uploads` (Gateway #24); web y mobile permiten adjuntar con vista previa y renderizan visor de fotos, reproductores de audio/video y tarjetas de descarga (WebApp #70).
+- **Resolución de alias federados en perfiles:** Auth vincula los IDs federados de Google a la cuenta unificada para que el autor no aparezca con alias genéricos tipo "User 5321" en el chat y lista de miembros (Auth #38).
+- **WebApp CI y Mobile:** deshabilitación temporal de E2E en CI por aislamiento de base de datos compartida; correcciones de memoización en React Compiler y refs en mobile.
 - Releases a `main` el 02/11 de Chat, WebApp, Gateway, Server-Roles y el orquestador, y el 03/11 de WebApp,
   Gateway, Notification, observability y el orquestador.
-
-**En revisión:** **adjuntos en mensajes** [Op#47]. Chat sube el archivo (hasta 10 MB, con lista de formatos)
-a S3 o, si no está configurado, al disco, y lo guarda con el mensaje (Chat #39); Kong expone la descarga sin
-token (Gateway #24); web y mobile adjuntan y muestran el archivo (WebApp #70). Para producción falta darle S3
-a Chat en el compose y en Terraform. También en revisión: los perfiles de identidades federadas en las
-consultas masivas de usuarios (Auth #38).
 
 **Decisiones:**
 - El rol `staff` sale de `app_metadata.role` de Auth0, que solo se cambia desde el Dashboard o la Management
@@ -246,10 +243,10 @@ consultas masivas de usuarios (Auth #38).
 - proteger `main` (no se puede con el plan Free en repos privados).
 
 **Optativas hechas:** login con proveedor federado [Op#33], 2FA [Op#35], estado personalizado [Op#38],
-reordenar canales [Op#41], menciones [Op#46], indicador de quién habla [Op#51], silenciar a otro localmente
+reordenar canales [Op#41], menciones [Op#46], adjuntar archivos en mensajes [Op#47], indicador de quién habla [Op#51], silenciar a otro localmente
 [Op#52], video en llamada [Op#54], eliminar rol [Op#55], reordenar jerarquía de roles [Op#56], ver miembros
-por rol [Op#58], expulsar miembro [Op#59] y silenciar temporalmente [Op#60]. Suman 48 pts. Con las 28 obligatorias (96 pts),
-el total es 144 pts.
+por rol [Op#58], expulsar miembro [Op#59] y silenciar temporalmente [Op#60]. Suman 53 pts. Con las 28 obligatorias (96 pts),
+el total es 149 pts.
 
-**Optativas en curso:** adjuntos [Op#47] (en revisión), y configuración del servidor [Op#39], permisos por
+**Optativas en curso:** configuración del servidor [Op#39], permisos por
 canal [Op#57] y estado de la plataforma [Op#74], parciales.

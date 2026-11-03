@@ -14,11 +14,11 @@
 | | Hechas | Puntos hechos | Comprometidas CP3 | Puntos al cierre del CP3 | Total |
 |---|---:|---:|---:|---:|---:|
 | **Obligatorias** | 28 / 32 | **96** | 4 (8 pts) | **104** | 104 |
-| **Optativas** | 13 / 49 | **48** | 19 (87 pts) | **135** | 229 |
-| **Total** | 41 / 81 | **144** | 23 (95 pts) | **239** | 333 |
+| **Optativas** | 14 / 49 | **53** | 18 (82 pts) | **135** | 229 |
+| **Total** | 42 / 81 | **149** | 22 (90 pts) | **239** | 333 |
 
 Mínimo de la cátedra para 6 integrantes: 104 obligatorios + 112 optativos = **216 pts**. Hoy faltan 8
-obligatorios y 64 optativos. El alcance del Checkpoint 3 deja 23 pts de margen sobre el mínimo.
+obligatorios y 59 optativos. El alcance del Checkpoint 3 deja 23 pts de margen sobre el mínimo.
 
 ## 1. Historias obligatorias (96 / 104)
 
@@ -79,7 +79,7 @@ y deshabilitadas (`src/features.ts`) hasta que exista cada endpoint de staff, se
 | 44 | ⬜ | ● | Editar mensaje | Mensajería | 3 | |
 | 45 | ⬜ | ● | Eliminar mensaje | Mensajería | 3 | |
 | 46 | ✅ | | Menciones | Mensajería | 5 | Usuario, rol y `@everyone`; cuenta en no leídos. Chat #34 (ADR-03), Server-Roles #83, WebApp #61 |
-| 47 | 🟡 | ● | Adjuntar archivos en mensajes | Mensajería | 5 | En revisión: Chat #39, Gateway #24, WebApp #70 (issue Chat #38). Hasta 10 MB, con lista de formatos. En producción Chat no tiene S3 configurado |
+| 47 | ✅ | | Adjuntar archivos en mensajes | Mensajería | 5 | Subida multipart local/S3, ruta pública Kong, preview y renderizado de imágenes, audio, video y docs en web y mobile. Chat #39, Gateway #24, WebApp #70 |
 | 48 | ⬜ | ● | Reacciones con emoji | Mensajería | 3 | |
 | 49 | ⬜ | | Buscar mensajes | Mensajería | 5 | |
 | 50 | ⬜ | ● | Iniciar y recibir llamada de voz privada | Canal de Voz | 13 | Se inicia desde un DM (#42) y respeta el bloqueo (#43). Sala de LiveKit 1 a 1 en Voice |
@@ -123,7 +123,7 @@ y deshabilitadas (`src/features.ts`) hasta que exista cada endpoint de staff, se
 | Perfil | 1 / 3 | 2 / 9 |
 | Servidores | 0 / 2 | 0 / 8 |
 | Canales | 1 / 1 | 2 / 2 |
-| Mensajería | 1 / 8 | 5 / 35 |
+| Mensajería | 2 / 8 | 10 / 35 |
 | Canal de Voz | 3 / 5 | 13 / 34 |
 | Roles y Permisos | 3 / 4 | 8 / 13 |
 | Moderación | 2 / 5 | 8 / 19 |

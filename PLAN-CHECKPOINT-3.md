@@ -7,8 +7,8 @@
 | | Hechos al 03/11 | Faltan en este checkpoint | Al cierre | Mínimo |
 |---|---:|---:|---:|---:|
 | Obligatorias | 96 | 8 | **104** | 104 |
-| Optativas | 48 | 87 | **135** | 112 |
-| **Total** | 144 | 95 | **239** | 216 |
+| Optativas | 53 | 82 | **135** | 112 |
+| **Total** | 149 | 90 | **239** | 216 |
 
 El alcance deja 23 pts de margen sobre el mínimo: si algo no llega, se cae primero lo que no es de mensajes
 directos ni del backoffice.
@@ -37,7 +37,7 @@ directos ni del backoffice.
 | 43 | Bloquear y desbloquear usuarios | Mensajería | 3 | |
 | 44 | Editar mensaje | Mensajería | 3 | |
 | 45 | Eliminar mensaje | Mensajería | 3 | |
-| 47 | Adjuntar archivos en mensajes | Mensajería | 5 | 🟡 En revisión (Chat #39, Gateway #24, WebApp #70) |
+| 47 | Adjuntar archivos en mensajes | Mensajería | 5 | ✅ Hecha (Chat #39, Gateway #24, WebApp #70) |
 | 48 | Reacciones con emoji | Mensajería | 3 | |
 | 50 | Iniciar y recibir llamada de voz privada | Canal de Voz | 13 | |
 | 57 | Sobrescribir permisos de un rol en un canal específico | Roles y Permisos | 5 | 🟡 Falta la API y la UI |
@@ -49,7 +49,7 @@ directos ni del backoffice.
 | 72 | Gráfico de crecimiento de miembros | Métricas | 3 | |
 | 73 | Exportar métricas a CSV | Métricas | 3 | |
 | 74 | Estado de la plataforma e incidentes | Métricas | 5 | 🟡 Falta la gestión de incidentes |
-| | | **Subtotal pendiente** | **87** | |
+| | | **Subtotal pendiente** | **82** | |
 
 ## Infraestructura y requisitos no funcionales
 
