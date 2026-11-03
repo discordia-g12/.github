@@ -43,8 +43,8 @@
 
 | ID | Historia Optativa | Épica | Pts | Estado | Descripción | Evidencia / PRs |
 |:---:|---|:---:|:---:|:---:|---|---|
-| **HU 33** | **Login con proveedor federado** | Usuarios | 5 | ⚪ Pendiente | Login con Google OAuth. | Pendiente de UI en Auth0. |
-| **HU 35** | **Autenticación 2FA** | Usuarios | 5 | ⚪ Pendiente | Segundo factor de autenticación con TOTP. | Backlog. |
+| **HU 33** | **Login con proveedor federado** | Usuarios | 5 | 🟢 Completada | Login con Google OAuth (CA 1, CA 2, CA 3) en Web y Mobile, vinculación por email verificado y onboarding de perfil. | `Auth-User-Service` PR #34, `Discordia-WebApp` (`feat/33-federated-login`), E2E `auth.spec.ts`. |
+| **HU 35** | **Autenticación 2FA** | Usuarios | 5 | 🟡 En Progreso | Segundo factor de autenticación con TOTP (Google Authenticator) y códigos de recuperación. | Issue #35, en desarrollo. |
 | **HU 36** | **Visualización de perfil público** | Perfil | 2 | ⚪ Pendiente | Modal con perfil de otros usuarios al hacer click. | Backlog. |
 | **HU 37** | **Estado de actividad** | Perfil | 5 | ⚪ Pendiente | Presencia en tiempo real (online, ausente, offline). | Backlog. |
 | **HU 39** | **Administrar configuración de servidor** | Servidores | 3 | 🟢 Completada | Editar nombre e icono del servidor en S3. | `Server-Roles` PATCH `/servers/{id}`, WebApp PR #40. |
@@ -86,7 +86,7 @@
 | **Eliminar rol** | Roles | 🟢 Completada | Borrar roles y desasignarlos de miembros. | `Server-Roles` DELETE `/roles/{id}` (PR #32), WebApp PR #8, #9. |
 | **Ver miembros por rol** | Roles | 🟢 Completada | Listar usuarios que tienen un rol asignado. | `Server-Roles` GET `/roles/{id}/members` (PR #39), WebApp PR #14. |
 | **Sobrescribir permisos por canal** | Roles | 🟡 En Progreso | Permisos específicos por canal. | Validación interna lista (`/can-send`, `/can-connect`, Issue #18). |
-| **Reordenar jerarquía de roles** | Roles | 🟡 En Progreso | Ordenar precedencia de roles. | `Server-Roles` Issue #17. |
+| **Reordenar jerarquía de roles** | Roles | 🟢 Completada | Reordenar jerarquía de roles respetando restricciones de rango superior. | PUT `/servers/{id}/roles/order`, tests en `test_role_reorder.py` (#17). |
 | **Suspender servidor completo** | Administración | 🟡 En Progreso | Congelar servidor desde el Backoffice. | `Server-Roles` Issue #22. |
 | **Eliminar servidor desde Backoffice** | Administración | 🟡 En Progreso | Borrar servidor desde el Backoffice. | Backoffice MVP (WebApp PR #46, #62). |
 
@@ -99,13 +99,13 @@
 | Sección | Total | 🟢 Completadas | 🟡 En Progreso | ⚪ Pendientes | % Hecho | % En curso o hecho |
 |---|:---:|:---:|:---:|:---:|:---:|:---:|
 | **1. Historias Obligatorias** | **32** | **28** | **4** | **0** | **87.5%** | **100.0%** |
-| **2. Optativas Roadmap** | **31** | **7** | **2** | **22** | **22.6%** | **29.0%** |
-| **3. Historias Bonus** | **8** | **4** | **4** | **0** | **50.0%** | **100.0%** |
-| **TOTAL** | **71** | **39** | **10** | **22** | **54.9%** | **69.0%** |
+| **2. Optativas Roadmap** | **31** | **8** | **3** | **20** | **25.8%** | **35.5%** |
+| **3. Historias Bonus** | **8** | **5** | **3** | **0** | **62.5%** | **100.0%** |
+| **TOTAL** | **71** | **41** | **10** | **20** | **57.7%** | **71.8%** |
 
 ### Puntos (Meta de Cátedra: 216 pts)
 
-* **Completados**: **121 pts** (82 pts obligatorias + 26 pts optativas roadmap + 13 pts bonus).
-* **En Progreso**: **46 pts** (22 pts obligatorias + 10 pts optativas roadmap + 14 pts bonus).
-* **Total Activo (Hecho + En Progreso)**: **167 pts** (77.3% de la meta).
+* **Completados**: **129 pts** (82 pts obligatorias + 31 pts optativas roadmap + 16 pts bonus).
+* **En Progreso**: **48 pts** (22 pts obligatorias + 15 pts optativas roadmap + 11 pts bonus).
+* **Total Activo (Hecho + En Progreso)**: **177 pts** (81.9% de la meta).
 * **Historias obligatorias sin iniciar**: **0**.
