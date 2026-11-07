@@ -1,7 +1,7 @@
 # Estado de Historias de Usuario — Discordia
 
 > Estado de cada historia de la consigna contra lo que está en `develop` de cada repo. Última revisión:
-> 03/11/2026. El alcance acordado para el Checkpoint 3 está en
+> 06/11/2026. El alcance acordado para el Checkpoint 3 está en
 > [`PLAN-CHECKPOINT-3.md`](https://github.com/discordia-g12/discordia-orchestrator/blob/develop/org-docs/PLAN-CHECKPOINT-3.md)
 > y la evolución semanal, en la
 > [bitácora](https://github.com/discordia-g12/discordia-orchestrator/blob/develop/org-docs/BITACORA.md).
@@ -68,14 +68,14 @@ y deshabilitadas (`src/features.ts`) hasta que exista cada endpoint de staff, se
 | 33 | ✅ | | Login con proveedor federado | Usuarios | 5 | Google en web y mobile, vinculación por email verificado. Auth #34, WebApp #66 |
 | 34 | ⬜ | | Registro con PIN | Usuarios | 2 | |
 | 35 | ✅ | | Autenticación de dos factores (2FA) | Usuarios | 5 | TOTP con QR y códigos de recuperación, en web y mobile. Auth #36, WebApp #69 |
-| 36 | ⬜ | ● | Visualización de perfil público | Perfil | 2 | |
+| 36 | 🟡 | ● | Visualización de perfil público | Perfil | 2 | En `feat/direct-messages` de Auth, Core y WebApp, sin mergear a `develop`. Los 3 CA probados en local contra los servicios reales, por API y en web. Sin probar: login con Auth0 y paso por Kong, y mobile contra el backend real. [ADR 0011](docs/architecture/decisions/0011-mensajes-directos.md) |
 | 37 | ⬜ | | Estado de actividad | Perfil | 5 | |
 | 38 | ✅ | | Estado personalizado | Perfil | 2 | `custom_status` (64 caracteres) en Auth |
 | 39 | 🟡 | ● | Administrar configuración del servidor | Servidores | 3 | Solo el ícono (Server-Roles #74, WebApp #40). Falta `PATCH /servers/{id}` para el nombre |
 | 40 | ⬜ | ● | Eliminar servidor | Servidores | 5 | |
 | 41 | ✅ | | Reordenar canales | Canales | 2 | `PUT /servers/{id}/channels/order` (Server-Roles #9, PR #40) |
-| 42 | ⬜ | ● | Enviar mensaje directo (DM) | Mensajería | 8 | Base de #43 y #50. El historial y la reconexión de #16 y los adjuntos de #47 aplican también a los DM |
-| 43 | ⬜ | ● | Bloquear y desbloquear usuarios | Mensajería | 3 | Corta los DM y las llamadas privadas (#50); el historial previo se conserva |
+| 42 | 🟡 | ● | Enviar mensaje directo (DM) | Mensajería | 8 | Base de #43 y #50. El historial y la reconexión de #16 y los adjuntos de #47 aplican también a los DM. En `feat/direct-messages` de Chat, Auth y WebApp, sin mergear a `develop`. Los 3 CA probados en local contra los servicios reales, por API y en web (incluye destinatario desconectado). Sin probar: login con Auth0 y paso por Kong, varias instancias de Chat (solo tests) y mobile contra el backend real |
+| 43 | 🟡 | ● | Bloquear y desbloquear usuarios | Mensajería | 3 | Corta los DM y las llamadas privadas (#50); el historial previo se conserva. En `feat/direct-messages` de Auth, Chat y WebApp, sin mergear a `develop`. Los 3 CA probados en local para DM, por API y en web. La parte de llamadas privadas queda para #50: esa historia todavía no existe |
 | 44 | ⬜ | ● | Editar mensaje | Mensajería | 3 | |
 | 45 | ⬜ | ● | Eliminar mensaje | Mensajería | 3 | |
 | 46 | ✅ | | Menciones | Mensajería | 5 | Usuario, rol y `@everyone`; cuenta en no leídos. Chat #34 (ADR-03), Server-Roles #83, WebApp #61 |
