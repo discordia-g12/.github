@@ -24,7 +24,8 @@
 | 12/10 – 18/10 | | 2 / 2 | 25 | 15 | 37 |
 | 19/10 – 25/10 | Checkpoint 2 (28/10) | 4 / 7 | 22 | 9 | 47 |
 | 26/10 – 01/11 | | 2 / 10 | 14 | 51 | 107 |
-| 02/11 – 08/11 | (en curso) | 4 / 6 | 12 | 24 | 32 |
+| 02/11 – 08/11 | | 4 / 6 | 12 | 24 | 32 |
+| 09/11 – 15/11 | Checkpoint 3 (13/11, en curso) | 2 / 2 | 10 | 14 | 28 |
 
 Commits sin merges ni los de Dependabot, de todas las ramas de los diez repos. Los PRs incluyen los de
 release (`develop → main`).
@@ -228,7 +229,18 @@ RabbitMQ.
 
 ---
 
-## Estado del backlog al 03/11
+## Semana 11: 09/11 – 15/11 (Checkpoint 3, en curso)
+
+**Entregado:**
+- **Eliminar servidor [Op#40]**: `DELETE /servers/{id}` en Server-Roles (PR #94) con borrado en cascada en Postgres (canales, categorías, roles, miembros, invitaciones, eventos de miembros), borrado de icono en S3 y publicación de evento en RabbitMQ para Chat-Engine-Service (borrado de mensajes y canales correspondientes). En Web y Mobile: modal de confirmación solicitando escribir el nombre del servidor para confirmar, redirección automática si el servidor activo es eliminado y resolución de congelamiento de pantalla en la app móvil al eliminar canales (WebApp PR #78).
+- **Gráfico de evolución de miembros [Op#72]**: auditoría de eventos de miembros en Postgres con el modelo `ServerMemberEvent` y migración Alembic en Server-Roles. Registro automático de altas (`joined`) y bajas (`left`, `kicked`, `banned`). Endpoint `GET /servers/{id}/metrics/member-growth` con control de permisos administrativos (`MANAGE_SERVER` / `ADMINISTRATOR` / `owner`) que computa la evolución día a día sobre el período elegido (7, 14, 30 días). En Web y Mobile: componente `MemberGrowthChart` en la sección Resumen de Ajustes del Servidor, con selector de rango temporal, tarjetas de estadísticas (miembros actuales, variación neta, altas y bajas), gráfico vectorial SVG y tooltip detallado día a día. Ver [ADR 0012](docs/architecture/decisions/0012-metricas-crecimiento-miembros.md).
+
+**Decisiones:**
+- Arquitectura de métricas de crecimiento basada en tabla append-only `server_member_events` calculada bajo demanda, sin requerir cron jobs pesados. Ver [ADR 0012](docs/architecture/decisions/0012-metricas-crecimiento-miembros.md).
+
+---
+
+## Estado del backlog al 10/11
 
 **Obligatorias:** faltan 4 de 32 (8 pts), las cuatro del backoffice.
 - Suspender y reactivar usuarios [O#29, O#30].
@@ -243,10 +255,10 @@ RabbitMQ.
 - proteger `main` (no se puede con el plan Free en repos privados).
 
 **Optativas hechas:** login con proveedor federado [Op#33], 2FA [Op#35], estado personalizado [Op#38],
-reordenar canales [Op#41], menciones [Op#46], adjuntar archivos en mensajes [Op#47], indicador de quién habla [Op#51], silenciar a otro localmente
-[Op#52], video en llamada [Op#54], eliminar rol [Op#55], reordenar jerarquía de roles [Op#56], ver miembros
-por rol [Op#58], expulsar miembro [Op#59] y silenciar temporalmente [Op#60]. Suman 53 pts. Con las 28 obligatorias (96 pts),
-el total es 149 pts.
+eliminar servidor [Op#40], reordenar canales [Op#41], menciones [Op#46], adjuntar archivos en mensajes [Op#47],
+indicador de quién habla [Op#51], silenciar a otro localmente [Op#52], video en llamada [Op#54],
+eliminar rol [Op#55], reordenar jerarquía de roles [Op#56], ver miembros por rol [Op#58], expulsar miembro [Op#59],
+silenciar temporalmente [Op#60] y gráfico de crecimiento de miembros [Op#72]. Suman 61 pts. Con las 28 obligatorias (96 pts),
+el total es 157 pts.
 
-**Optativas en curso:** configuración del servidor [Op#39], permisos por
-canal [Op#57] y estado de la plataforma [Op#74], parciales.
+**Optativas en curso:** visualización de perfil público [Op#36], configuración del servidor [Op#39], mensajes directos [Op#42], bloqueo y desbloqueo [Op#43], permisos por canal [Op#57] y estado de la plataforma [Op#74], parciales.

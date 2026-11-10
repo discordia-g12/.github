@@ -1,7 +1,7 @@
 # Estado de Historias de Usuario — Discordia
 
 > Estado de cada historia de la consigna contra lo que está en `develop` de cada repo. Última revisión:
-> 06/11/2026. El alcance acordado para el Checkpoint 3 está en
+> 10/11/2026. El alcance acordado para el Checkpoint 3 está en
 > [`PLAN-CHECKPOINT-3.md`](https://github.com/discordia-g12/discordia-orchestrator/blob/develop/org-docs/PLAN-CHECKPOINT-3.md)
 > y la evolución semanal, en la
 > [bitácora](https://github.com/discordia-g12/discordia-orchestrator/blob/develop/org-docs/BITACORA.md).
@@ -14,11 +14,11 @@
 | | Hechas | Puntos hechos | Comprometidas CP3 | Puntos al cierre del CP3 | Total |
 |---|---:|---:|---:|---:|---:|
 | **Obligatorias** | 28 / 32 | **96** | 4 (8 pts) | **104** | 104 |
-| **Optativas** | 14 / 49 | **53** | 18 (82 pts) | **135** | 229 |
-| **Total** | 42 / 81 | **149** | 22 (90 pts) | **239** | 333 |
+| **Optativas** | 16 / 49 | **61** | 16 (74 pts) | **135** | 229 |
+| **Total** | 44 / 81 | **157** | 20 (82 pts) | **239** | 333 |
 
 Mínimo de la cátedra para 6 integrantes: 104 obligatorios + 112 optativos = **216 pts**. Hoy faltan 8
-obligatorios y 59 optativos. El alcance del Checkpoint 3 deja 23 pts de margen sobre el mínimo.
+obligatorios y 51 optativos. El alcance del Checkpoint 3 deja 23 pts de margen sobre el mínimo.
 
 ## 1. Historias obligatorias (96 / 104)
 
@@ -72,7 +72,7 @@ y deshabilitadas (`src/features.ts`) hasta que exista cada endpoint de staff, se
 | 37 | ⬜ | | Estado de actividad | Perfil | 5 | |
 | 38 | ✅ | | Estado personalizado | Perfil | 2 | `custom_status` (64 caracteres) en Auth |
 | 39 | 🟡 | ● | Administrar configuración del servidor | Servidores | 3 | Solo el ícono (Server-Roles #74, WebApp #40). Falta `PATCH /servers/{id}` para el nombre |
-| 40 | ⬜ | ● | Eliminar servidor | Servidores | 5 | |
+| 40 | ✅ | | Eliminar servidor | Servidores | 5 | `DELETE /servers/{id}` en Server-Roles (PR #94), cascada en Postgres y S3, evento en RabbitMQ para Chat (limpieza de canales y mensajes). Modal de confirmación en web y mobile con redirección (WebApp PR #78) |
 | 41 | ✅ | | Reordenar canales | Canales | 2 | `PUT /servers/{id}/channels/order` (Server-Roles #9, PR #40) |
 | 42 | 🟡 | ● | Enviar mensaje directo (DM) | Mensajería | 8 | Base de #43 y #50. El historial y la reconexión de #16 y los adjuntos de #47 aplican también a los DM. En `feat/direct-messages` de Chat, Auth y WebApp, sin mergear a `develop`. Los 3 CA probados en local contra los servicios reales, por API y en web (incluye destinatario desconectado). Sin probar: login con Auth0 y paso por Kong, varias instancias de Chat (solo tests) y mobile contra el backend real |
 | 43 | 🟡 | ● | Bloquear y desbloquear usuarios | Mensajería | 3 | Corta los DM y las llamadas privadas (#50); el historial previo se conserva. En `feat/direct-messages` de Auth, Chat y WebApp, sin mergear a `develop`. Los 3 CA probados en local para DM, por API y en web. La parte de llamadas privadas queda para #50: esa historia todavía no existe |
@@ -104,7 +104,7 @@ y deshabilitadas (`src/features.ts`) hasta que exista cada endpoint de staff, se
 | 69 | ⬜ | ● | Suspender servidor completo | Administración | 5 | Pantalla en "próximamente" |
 | 70 | ⬜ | ● | Ver métricas de actividad de un servidor | Métricas | 5 | |
 | 71 | ⬜ | ● | Ver métricas globales de la plataforma | Métricas | 5 | Grafana no alcanza: la historia es una pantalla del backoffice |
-| 72 | ⬜ | ● | Gráfico de crecimiento de miembros | Métricas | 3 | Depende de #70 |
+| 72 | ✅ | | Gráfico de crecimiento de miembros | Métricas | 3 | Server-Roles: `ServerMemberEvent`, migración Alembic y endpoint `GET /servers/{id}/metrics/member-growth` con permisos de admin. Web y mobile: tarjetas de métricas, selector 7d/14d/30d, gráfico SVG y tooltip día a día (WebApp). [ADR 0012](docs/architecture/decisions/0012-metricas-crecimiento-miembros.md) |
 | 73 | ⬜ | ● | Exportar métricas a CSV | Métricas | 3 | Depende de #70 o #71 |
 | 74 | 🟡 | ● | Estado de la plataforma e incidentes | Métricas | 5 | Estado en vivo a partir de los `/readyz` en el backoffice (Notification #23, Gateway #23, WebApp #67). Faltan publicar y resolver incidentes y el aviso en la app |
 | 75 | ⬜ | | Gestionar emojis personalizados del servidor | Monetización | 5 | |
@@ -121,7 +121,7 @@ y deshabilitadas (`src/features.ts`) hasta que exista cada endpoint de staff, se
 |---|---:|---:|
 | Usuarios | 2 / 3 | 10 / 12 |
 | Perfil | 1 / 3 | 2 / 9 |
-| Servidores | 0 / 2 | 0 / 8 |
+| Servidores | 1 / 2 | 5 / 8 |
 | Canales | 1 / 1 | 2 / 2 |
 | Mensajería | 2 / 8 | 10 / 35 |
 | Canal de Voz | 3 / 5 | 13 / 34 |
@@ -129,5 +129,5 @@ y deshabilitadas (`src/features.ts`) hasta que exista cada endpoint de staff, se
 | Moderación | 2 / 5 | 8 / 19 |
 | Notificaciones | 0 / 4 | 0 / 16 |
 | Administración | 0 / 3 | 0 / 15 |
-| Métricas | 0 / 5 | 0 / 21 |
+| Métricas | 1 / 5 | 3 / 21 |
 | Monetización | 0 / 6 | 0 / 45 |

@@ -1,14 +1,14 @@
 # Plan del Checkpoint 3 (13/11)
 
-> Última revisión: 03/11/2026. El estado de cada historia está en `progress.md`.
+> Última revisión: 10/11/2026. El estado de cada historia está en `progress.md`.
 
 ## Puntos
 
-| | Hechos al 03/11 | Faltan en este checkpoint | Al cierre | Mínimo |
+| | Hechos al 10/11 | Faltan en este checkpoint | Al cierre | Mínimo |
 |---|---:|---:|---:|---:|
 | Obligatorias | 96 | 8 | **104** | 104 |
-| Optativas | 53 | 82 | **135** | 112 |
-| **Total** | 149 | 90 | **239** | 216 |
+| Optativas | 61 | 74 | **135** | 112 |
+| **Total** | 157 | 82 | **239** | 216 |
 
 El alcance deja 23 pts de margen sobre el mínimo: si algo no llega, se cae primero lo que no es de mensajes
 directos ni del backoffice.
@@ -32,7 +32,7 @@ directos ni del backoffice.
 | 35 | Autenticación de dos factores (2FA) | Usuarios | 5 | ✅ Hecha (Auth #36, WebApp #69) |
 | 36 | Visualización de perfil público | Perfil | 2 | |
 | 39 | Administrar configuración del servidor | Servidores | 3 | 🟡 Falta editar el nombre |
-| 40 | Eliminar servidor | Servidores | 5 | |
+| 40 | Eliminar servidor | Servidores | 5 | ✅ Hecha (Server-Roles PR #94, Chat, WebApp PR #78) |
 | 42 | Enviar mensaje directo (DM) | Mensajería | 8 | |
 | 43 | Bloquear y desbloquear usuarios | Mensajería | 3 | |
 | 44 | Editar mensaje | Mensajería | 3 | |
@@ -46,10 +46,10 @@ directos ni del backoffice.
 | 69 | Suspender servidor completo | Administración | 5 | |
 | 70 | Ver métricas de actividad de un servidor | Métricas | 5 | |
 | 71 | Ver métricas globales de la plataforma | Métricas | 5 | |
-| 72 | Gráfico de crecimiento de miembros | Métricas | 3 | |
+| 72 | Gráfico de crecimiento de miembros | Métricas | 3 | ✅ Hecha (Server-Roles, WebApp) |
 | 73 | Exportar métricas a CSV | Métricas | 3 | |
 | 74 | Estado de la plataforma e incidentes | Métricas | 5 | 🟡 Falta la gestión de incidentes |
-| | | **Subtotal pendiente** | **82** | |
+| | | **Subtotal pendiente** | **74** | |
 
 ## Infraestructura y requisitos no funcionales
 
