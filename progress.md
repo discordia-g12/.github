@@ -1,7 +1,7 @@
 # Estado de Historias de Usuario — Discordia
 
 > Estado de cada historia de la consigna contra lo que está en `develop` de cada repo. Última revisión:
-> 10/11/2026. El alcance acordado para el Checkpoint 3 está en
+> 11/11/2026. El alcance acordado para el Checkpoint 3 está en
 > [`PLAN-CHECKPOINT-3.md`](https://github.com/discordia-g12/discordia-orchestrator/blob/develop/org-docs/PLAN-CHECKPOINT-3.md)
 > y la evolución semanal, en la
 > [bitácora](https://github.com/discordia-g12/discordia-orchestrator/blob/develop/org-docs/BITACORA.md).
@@ -14,11 +14,11 @@
 | | Hechas | Puntos hechos | Comprometidas CP3 | Puntos al cierre del CP3 | Total |
 |---|---:|---:|---:|---:|---:|
 | **Obligatorias** | 28 / 32 | **96** | 4 (8 pts) | **104** | 104 |
-| **Optativas** | 16 / 49 | **61** | 16 (74 pts) | **135** | 229 |
-| **Total** | 44 / 81 | **157** | 20 (82 pts) | **239** | 333 |
+| **Optativas** | 17 / 49 | **66** | 15 (69 pts) | **135** | 229 |
+| **Total** | 45 / 81 | **162** | 19 (77 pts) | **239** | 333 |
 
 Mínimo de la cátedra para 6 integrantes: 104 obligatorios + 112 optativos = **216 pts**. Hoy faltan 8
-obligatorios y 51 optativos. El alcance del Checkpoint 3 deja 23 pts de margen sobre el mínimo.
+obligatorios y 46 optativos. El alcance del Checkpoint 3 deja 23 pts de margen sobre el mínimo.
 
 ## 1. Historias obligatorias (96 / 104)
 
@@ -103,7 +103,7 @@ y deshabilitadas (`src/features.ts`) hasta que exista cada endpoint de staff, se
 | 68 | ⬜ | ● | Eliminar servidor desde el backoffice | Administración | 5 | Pantalla en "próximamente" |
 | 69 | ⬜ | ● | Suspender servidor completo | Administración | 5 | Pantalla en "próximamente" |
 | 70 | ⬜ | ● | Ver métricas de actividad de un servidor | Métricas | 5 | |
-| 71 | ⬜ | ● | Ver métricas globales de la plataforma | Métricas | 5 | Grafana no alcanza: la historia es una pantalla del backoffice |
+| 71 | ✅ | | Ver métricas globales de la plataforma | Métricas | 5 | `GET /api/v1/admin/metrics?from&to` (staff) en Notification, que junta los conteos de Chat (mensajes y usuarios activos) y de Server-Roles (servidores creados); ruta `admin-metrics` en Kong; pantalla en el backoffice con selector de período. [ADR 0014](docs/architecture/decisions/0014-metricas-globales-de-la-plataforma.md) |
 | 72 | ✅ | | Gráfico de crecimiento de miembros | Métricas | 3 | Server-Roles: `ServerMemberEvent`, migración Alembic y endpoint `GET /servers/{id}/metrics/member-growth` con permisos de admin. Web y mobile: tarjetas de métricas, selector 7d/14d/30d, gráfico SVG y tooltip día a día (WebApp). [ADR 0012](docs/architecture/decisions/0012-metricas-crecimiento-miembros.md) |
 | 73 | ⬜ | ● | Exportar métricas a CSV | Métricas | 3 | Depende de #70 o #71 |
 | 74 | 🟡 | ● | Estado de la plataforma e incidentes | Métricas | 5 | Estado en vivo a partir de los `/readyz` en el backoffice (Notification #23, Gateway #23, WebApp #67). Faltan publicar y resolver incidentes y el aviso en la app |
@@ -129,5 +129,5 @@ y deshabilitadas (`src/features.ts`) hasta que exista cada endpoint de staff, se
 | Moderación | 2 / 5 | 8 / 19 |
 | Notificaciones | 0 / 4 | 0 / 16 |
 | Administración | 0 / 3 | 0 / 15 |
-| Métricas | 1 / 5 | 3 / 21 |
+| Métricas | 2 / 5 | 8 / 21 |
 | Monetización | 0 / 6 | 0 / 45 |
