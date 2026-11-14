@@ -1,7 +1,7 @@
 # Estado de Historias de Usuario — Discordia
 
 > Estado de cada historia de la consigna contra lo que está en `develop` de cada repo. Última revisión:
-> 11/11/2026. El alcance acordado para el Checkpoint 3 está en
+> 12/11/2026. El alcance acordado para el Checkpoint 3 está en
 > [`PLAN-CHECKPOINT-3.md`](https://github.com/discordia-g12/discordia-orchestrator/blob/develop/org-docs/PLAN-CHECKPOINT-3.md)
 > y la evolución semanal, en la
 > [bitácora](https://github.com/discordia-g12/discordia-orchestrator/blob/develop/org-docs/BITACORA.md).
@@ -68,21 +68,21 @@ y deshabilitadas (`src/features.ts`) hasta que exista cada endpoint de staff, se
 | 33 | ✅ | | Login con proveedor federado | Usuarios | 5 | Google en web y mobile, vinculación por email verificado. Auth #34, WebApp #66 |
 | 34 | ⬜ | | Registro con PIN | Usuarios | 2 | |
 | 35 | ✅ | | Autenticación de dos factores (2FA) | Usuarios | 5 | TOTP con QR y códigos de recuperación, en web y mobile. Auth #36, WebApp #69 |
-| 36 | 🟡 | ● | Visualización de perfil público | Perfil | 2 | En `feat/direct-messages` de Auth, Core y WebApp, sin mergear a `develop`. Los 3 CA probados en local contra los servicios reales, por API y en web. Sin probar: login con Auth0 y paso por Kong, y mobile contra el backend real. [ADR 0011](docs/architecture/decisions/0011-mensajes-directos.md) |
+| 36 | 🟡 | ● | Visualización de perfil público | Perfil | 2 | En `develop` de Auth, Core y WebApp (no en `main`). Los 3 CA probados en local contra los servicios reales, por API y en web. Sin probar: login con Auth0 y paso por Kong, y mobile contra el backend real. [ADR 0011](docs/architecture/decisions/0011-mensajes-directos.md) |
 | 37 | ⬜ | | Estado de actividad | Perfil | 5 | |
 | 38 | ✅ | | Estado personalizado | Perfil | 2 | `custom_status` (64 caracteres) en Auth |
 | 39 | 🟡 | ● | Administrar configuración del servidor | Servidores | 3 | Solo el ícono (Server-Roles #74, WebApp #40). Falta `PATCH /servers/{id}` para el nombre |
 | 40 | ✅ | | Eliminar servidor | Servidores | 5 | `DELETE /servers/{id}` en Server-Roles (PR #94), cascada en Postgres y S3, evento en RabbitMQ para Chat (limpieza de canales y mensajes). Modal de confirmación en web y mobile con redirección (WebApp PR #78) |
 | 41 | ✅ | | Reordenar canales | Canales | 2 | `PUT /servers/{id}/channels/order` (Server-Roles #9, PR #40) |
-| 42 | 🟡 | ● | Enviar mensaje directo (DM) | Mensajería | 8 | Base de #43 y #50. El historial y la reconexión de #16 y los adjuntos de #47 aplican también a los DM. En `feat/direct-messages` de Chat, Auth y WebApp, sin mergear a `develop`. Los 3 CA probados en local contra los servicios reales, por API y en web (incluye destinatario desconectado). Sin probar: login con Auth0 y paso por Kong, varias instancias de Chat (solo tests) y mobile contra el backend real |
-| 43 | 🟡 | ● | Bloquear y desbloquear usuarios | Mensajería | 3 | Corta los DM y las llamadas privadas (#50); el historial previo se conserva. En `feat/direct-messages` de Auth, Chat y WebApp, sin mergear a `develop`. Los 3 CA probados en local para DM, por API y en web. La parte de llamadas privadas queda para #50: esa historia todavía no existe |
+| 42 | 🟡 | ● | Enviar mensaje directo (DM) | Mensajería | 8 | Base de #43 y #50. El historial y la reconexión de #16 y los adjuntos de #47 aplican también a los DM. En `develop` de Chat, Auth y WebApp (no en `main`). Los 3 CA probados en local contra los servicios reales, por API y en web (incluye destinatario desconectado). Sin probar: login con Auth0 y paso por Kong, varias instancias de Chat (solo tests) y mobile contra el backend real |
+| 43 | 🟡 | ● | Bloquear y desbloquear usuarios | Mensajería | 3 | Corta los DM y las llamadas privadas (#50); el historial previo se conserva. En `develop` de Auth, Chat y WebApp (no en `main`). Los 3 CA probados en local para DM, por API y en web. Llamadas: el bloqueo en cualquier sentido da `403 DM_NOT_DELIVERABLE` al iniciar y al aceptar, probado en local por API con #50 (todavía en `feat/private-calls`). Un bloqueo no corta una llamada ya activa (deuda V6) |
 | 44 | ⬜ | ● | Editar mensaje | Mensajería | 3 | |
 | 45 | ⬜ | ● | Eliminar mensaje | Mensajería | 3 | |
 | 46 | ✅ | | Menciones | Mensajería | 5 | Usuario, rol y `@everyone`; cuenta en no leídos. Chat #34 (ADR-03), Server-Roles #83, WebApp #61 |
 | 47 | ✅ | | Adjuntar archivos en mensajes | Mensajería | 5 | Subida multipart local/S3, ruta pública Kong, preview y renderizado de imágenes, audio, video y docs en web y mobile. Chat #39, Gateway #24, WebApp #70 |
 | 48 | ⬜ | ● | Reacciones con emoji | Mensajería | 3 | |
 | 49 | ⬜ | | Buscar mensajes | Mensajería | 5 | |
-| 50 | ⬜ | ● | Iniciar y recibir llamada de voz privada | Canal de Voz | 13 | Se inicia desde un DM (#42) y respeta el bloqueo (#43). Sala de LiveKit 1 a 1 en Voice |
+| 50 | 🟡 | ● | Iniciar y recibir llamada de voz privada | Canal de Voz | 13 | En `feat/private-calls` de Voice, Chat y WebApp, sin mergear a `develop`. Sala de LiveKit 1 a 1 en Voice, autorización por Chat (mismas reglas que un DM) y aviso por el inbox. Probado en local contra los servicios reales, por API: los 4 CA (suena en el inbox del otro, aceptar con audio en los dos sentidos por LiveKit, rechazada y sin respuesta a los 30 s, cortar de cualquiera borra la sala), ocupado (409), bloqueo al iniciar y al aceptar, Chat caído (iniciar 503, cortar anda), irse de la sala sin cortar y cuenta suspendida. Sin probar: login con Auth0 y paso por Kong, la UI de web y mobile contra el backend real (solo con mock) y audio en un dispositivo mobile. [ADR 0015](docs/architecture/decisions/0015-llamadas-privadas.md) |
 | 51 | ✅ | | Indicador de quién está hablando | Canal de Voz | 3 | Eventos de audio de LiveKit, WebApp #22 |
 | 52 | ✅ | | Silenciar a otro participante localmente | Canal de Voz | 2 | WebApp #24 (web) y #28 (mobile) |
 | 53 | ⬜ | | Compartir pantalla | Canal de Voz | 8 | Ya existe el permiso `SCREEN_SHARE` en Server-Roles |
