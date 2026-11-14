@@ -86,7 +86,7 @@ y deshabilitadas (`src/features.ts`) hasta que exista cada endpoint de staff, se
 | 51 | ✅ | | Indicador de quién está hablando | Canal de Voz | 3 | Eventos de audio de LiveKit, WebApp #22 |
 | 52 | ✅ | | Silenciar a otro participante localmente | Canal de Voz | 2 | WebApp #24 (web) y #28 (mobile) |
 | 53 | ⬜ | | Compartir pantalla | Canal de Voz | 8 | Ya existe el permiso `SCREEN_SHARE` en Server-Roles |
-| 54 | ✅ | | Video en llamada | Canal de Voz | 8 | Voice #17, WebApp #38 (web y mobile) |
+| 54 | ✅ | | Video en llamada | Canal de Voz | 8 | Voice #17, WebApp #38 (web y mobile). Llamadas privadas (#50): el token de la llamada deja publicar la cámara y el panel de la llamada muestra el video, en `feat/private-calls` de Voice y WebApp. Probado con tests (web y Voice); sin probar contra LiveKit real ni en un dispositivo mobile |
 | 55 | ✅ | | Eliminar rol | Roles y Permisos | 3 | Server-Roles PR #32, WebApp #8, #9 |
 | 56 | ✅ | | Reordenar jerarquía de roles | Roles y Permisos | 3 | `PUT /servers/{id}/roles/order`, Server-Roles #85, WebApp #65 |
 | 57 | 🟡 | ● | Sobrescribir permisos de un rol en un canal específico | Roles y Permisos | 5 | Solo el cálculo interno (`/internal/channels/{id}/access`). Falta la API y la UI |
