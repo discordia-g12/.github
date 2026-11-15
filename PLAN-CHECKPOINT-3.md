@@ -1,55 +1,53 @@
 # Plan del Checkpoint 3 (13/11)
 
-> Última revisión: 10/11/2026. El estado de cada historia está en `progress.md`.
+> Última revisión: 14/11/2026. El estado detallado de cada historia está en `progress.md` y la evolución en `BITACORA.md`. El tablero general del equipo se gestiona en [GitHub Projects #4 (Discordia Kanban)](https://github.com/orgs/discordia-g12/projects/4).
 
 ## Puntos
 
-| | Hechos al 10/11 | Faltan en este checkpoint | Al cierre | Mínimo |
+| | Hechos al 14/11 | En curso / pendientes | Al cierre | Mínimo |
 |---|---:|---:|---:|---:|
-| Obligatorias | 96 | 8 | **104** | 104 |
-| Optativas | 61 | 74 | **135** | 112 |
-| **Total** | 157 | 82 | **239** | 216 |
+| Obligatorias | **104** | 0 | **104** | 104 |
+| Optativas | **127** | 8 | **135** | 112 |
+| **Total** | **231** | 8 | **239** | 216 |
 
-El alcance deja 23 pts de margen sobre el mínimo: si algo no llega, se cae primero lo que no es de mensajes
-directos ni del backoffice.
+Las 32 historias obligatorias (104 pts) y 30 historias optativas (127 pts) están 100% completas en `develop` y cerradas en el proyecto. **Discordia ya supera el mínimo exigido de la cátedra de 216 pts (+15 pts de margen)**. Restan únicamente 8 pts de las historias comprometidas para CP3 que siguen abiertas en el backlog (#57 y #73).
 
 ## Historias
 
-### Obligatorias
+### Obligatorias (104 / 104 pts — 100% completas)
 
-| # | Historia | Épica | Pts |
-| -: | --- | --- | -: |
-| 29 | Suspender usuario a nivel plataforma | Administración | 3 |
-| 30 | Reactivar usuario suspendido | Administración | 1 |
-| 31 | Ver listado de usuarios con filtros | Administración | 2 |
-| 32 | Ver listado de servidores de la plataforma | Administración | 2 |
-| | | **Subtotal** | **8** |
+| # | Historia | Épica | Pts | Estado |
+| -: | --- | --- | -: | --- |
+| 29 | Suspender usuario a nivel plataforma | Administración | 3 | ✅ Hecha (Auth-User PR #44, Gateway PR #26, WebApp PR #76) |
+| 30 | Reactivar usuario suspendido | Administración | 1 | ✅ Hecha (Auth-User PR #44, Gateway PR #26, WebApp PR #76) |
+| 31 | Ver listado de usuarios con filtros | Administración | 2 | ✅ Hecha (Auth-User PR #44, Gateway PR #26, WebApp PR #76) |
+| 32 | Ver listado de servidores de la plataforma | Administración | 2 | ✅ Hecha (Server-Roles PR #98, Gateway PR #29, WebApp PR #84) |
+| | | **Subtotal** | **8** | *(Todas las obligatorias completadas)* |
 
-### Optativas
+### Optativas comprometidas para CP3 (127 pts hechos / 8 pts pendientes)
 
 | # | Historia | Épica | Pts | Estado |
 | -: | --- | --- | -: | --- |
 | 35 | Autenticación de dos factores (2FA) | Usuarios | 5 | ✅ Hecha (Auth #36, WebApp #69) |
-| 36 | Visualización de perfil público | Perfil | 2 | |
-| 39 | Administrar configuración del servidor | Servidores | 3 | 🟡 Falta editar el nombre |
+| 36 | Visualización de perfil público | Perfil | 2 | ✅ Hecha (Auth-User PR #44, WebApp) |
+| 39 | Administrar configuración del servidor | Servidores | 3 | ✅ Hecha (Server-Roles PR #96, Chat, WebApp PR #80) |
 | 40 | Eliminar servidor | Servidores | 5 | ✅ Hecha (Server-Roles PR #94, Chat, WebApp PR #78) |
-| 42 | Enviar mensaje directo (DM) | Mensajería | 8 | |
-| 43 | Bloquear y desbloquear usuarios | Mensajería | 3 | |
-| 44 | Editar mensaje | Mensajería | 3 | |
-| 45 | Eliminar mensaje | Mensajería | 3 | |
+| 42 | Enviar mensaje directo (DM) | Mensajería | 8 | ✅ Hecha (Chat, WebSockets, MongoDB, inbox Redis, WebApp) |
+| 43 | Bloquear y desbloquear usuarios | Mensajería | 3 | ✅ Hecha (Auth-User, Chat, Server-Roles, WebApp) |
+| 44 | Editar mensaje | Mensajería | 3 | ✅ Hecha (Chat PR #46, WebApp PR #77) |
+| 45 | Eliminar mensaje | Mensajería | 3 | ✅ Hecha (Chat PR #46, WebApp PR #77) |
 | 47 | Adjuntar archivos en mensajes | Mensajería | 5 | ✅ Hecha (Chat #39, Gateway #24, WebApp #70) |
-| 48 | Reacciones con emoji | Mensajería | 3 | |
-| 50 | Iniciar y recibir llamada de voz privada | Canal de Voz | 13 | |
-| 57 | Sobrescribir permisos de un rol en un canal específico | Roles y Permisos | 5 | 🟡 Falta la API y la UI |
-| 61 | Ver registro de auditoría de moderación | Moderación | 3 | |
-| 68 | Eliminar servidor desde el backoffice | Administración | 5 | |
-| 69 | Suspender servidor completo | Administración | 5 | |
-| 70 | Ver métricas de actividad de un servidor | Métricas | 5 | |
-| 71 | Ver métricas globales de la plataforma | Métricas | 5 | |
-| 72 | Gráfico de crecimiento de miembros | Métricas | 3 | ✅ Hecha (Server-Roles, WebApp) |
-| 73 | Exportar métricas a CSV | Métricas | 3 | |
-| 74 | Estado de la plataforma e incidentes | Métricas | 5 | 🟡 Falta la gestión de incidentes |
-| | | **Subtotal pendiente** | **74** | |
+| 48 | Reacciones con emoji | Mensajería | 3 | ✅ Hecha (Chat PR #46, Server-Roles, WebApp PR #77) |
+| 50 | Iniciar y recibir llamada de voz privada | Canal de Voz | 13 | ✅ Hecha (Voice PR #44, Chat, WebApp PR #87, ADR 0015) |
+| 57 | Sobrescribir permisos de un rol en un canal específico | Roles y Permisos | 5 | 🟡 Parcial (cálculo interno listo en Server-Roles #18; falta API y UI) |
+| 61 | Ver registro de auditoría de moderación | Moderación | 3 | ✅ Hecha (Server-Roles PR #97, Notification PR #26, WebApp PR #82) |
+| 68 | Eliminar servidor desde el backoffice | Administración | 5 | ✅ Hecha (Server-Roles PR #102, Chat PR #53, WebApp PR #86) |
+| 69 | Suspender servidor completo | Administración | 5 | ✅ Hecha (Server-Roles PR #98, Chat PR #51, WebApp PR #84) |
+| 70 | Ver métricas de actividad de un servidor | Métricas | 5 | ✅ Hecha (Notification PR #28, Chat PR #55, Server-Roles PR #103, WebApp PR #89) |
+| 71 | Ver métricas globales de la plataforma | Métricas | 5 | ✅ Hecha (Notification PR #27, Chat PR #52, Server-Roles PR #101, WebApp PR #85) |
+| 72 | Gráfico de crecimiento de miembros | Métricas | 3 | ✅ Hecha (Server-Roles PR #95, WebApp PR #79) |
+| 73 | Exportar métricas a CSV | Métricas | 3 | ⬜ Pendiente (base lista en Notification) |
+| 74 | Estado de la plataforma e incidentes | Métricas | 5 | ✅ Hecha (Notification PR #25, Gateway PR #27, WebApp PR #81) |
 
 ## Infraestructura y requisitos no funcionales
 

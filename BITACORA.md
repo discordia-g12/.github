@@ -2,7 +2,7 @@
 
 > Evolución semanal del backlog y de lo que se entregó. Se arma con los issues de los diez repos de
 > `discordia-g12` (el backlog), los PRs mergeados y los commits. Semanas de lunes a domingo.
-> Última actualización: 03/11/2026.
+> Última actualización: 14/11/2026.
 
 ## Cómo se lee
 
@@ -232,35 +232,48 @@ RabbitMQ.
 ## Semana 11: 09/11 – 15/11 (Checkpoint 3, en curso)
 
 **Entregado:**
-- **Eliminar servidor [Op#40]**: `DELETE /servers/{id}` en Server-Roles (PR #94) con borrado en cascada en Postgres (canales, categorías, roles, miembros, invitaciones, eventos de miembros), borrado de icono en S3 y publicación de evento en RabbitMQ para Chat-Engine-Service (borrado de mensajes y canales correspondientes). En Web y Mobile: modal de confirmación solicitando escribir el nombre del servidor para confirmar, redirección automática si el servidor activo es eliminado y resolución de congelamiento de pantalla en la app móvil al eliminar canales (WebApp PR #78).
-- **Gráfico de evolución de miembros [Op#72]**: auditoría de eventos de miembros en Postgres con el modelo `ServerMemberEvent` y migración Alembic en Server-Roles. Registro automático de altas (`joined`) y bajas (`left`, `kicked`, `banned`). Endpoint `GET /servers/{id}/metrics/member-growth` con control de permisos administrativos (`MANAGE_SERVER` / `ADMINISTRATOR` / `owner`) que computa la evolución día a día sobre el período elegido (7, 14, 30 días). En Web y Mobile: componente `MemberGrowthChart` en la sección Resumen de Ajustes del Servidor, con selector de rango temporal, tarjetas de estadísticas (miembros actuales, variación neta, altas y bajas), gráfico vectorial SVG y tooltip detallado día a día. Ver [ADR 0012](docs/architecture/decisions/0012-metricas-crecimiento-miembros.md).
-- **Métricas globales de la plataforma [Op#71]**: `GET /api/v1/admin/metrics?from&to` en Notification-Audit-Metrics, solo staff (ruta `admin-metrics` en Kong y chequeo de `X-User-Role` en el servicio). Junta en el momento los conteos de Chat (`/internal/metrics/messages`: mensajes y autores distintos) y de Server-Roles (`/internal/metrics/servers`), con timeout de 2 s, respuesta parcial si uno no responde y cache de 60 s. En el backoffice: selector de período (7, 30, 90 días o un rango a elección), tres tarjetas y estados de carga, error y sin permiso. Ver [ADR 0014](docs/architecture/decisions/0014-metricas-globales-de-la-plataforma.md).
+- **Backoffice de usuarios [O#29, O#30, O#31]**: listado de usuarios con búsqueda por email/nombre y filtro por estado (Auth-User PR #44, Gateway PR #26), suspensión y reactivación a nivel plataforma (`ADR-002-Suspension-Usuarios`) con desconexión de sesiones activas en Chat (PR #45) y Voice (PR #39), y habilitación de `users.list`, `users.suspend` y `users.reactivate` en `apps/backoffice` (WebApp PR #76). Con esto se completan las 32 historias obligatorias (104 pts).
+- **Backoffice de servidores [O#32, Op#68, Op#69]**: listado de servidores con filtros, suspensión y levantamiento (`ADR-002-Suspension-de-Servidores` en Server-Roles PR #98, Chat PR #51, Voice PR #40, Gateway PR #29, WebApp PR #84) y eliminación permanente desde el backoffice con cierre y redirección en vivo en web y mobile (Server-Roles PR #102, Chat PR #53, Voice PR #42, Gateway PR #31, WebApp PR #86).
+- **Edición, borrado y reacciones en mensajes [Op#44, Op#45, Op#48]**: edición de mensajes en canales y DMs con sync al inbox, borrado lógico (tombstone) respetando `MANAGE_MESSAGES` y reacciones con emoji por categorías (`can_add_reactions`, `ADR-04-Reacciones-y-Catalogo-Emojis`) en Chat (PR #46), Server-Roles y WebApp (PR #77, web y mobile).
+- **Configuración del servidor en vivo [Op#39, parcial]**: edición de nombre, descripción, ícono y banner (`PATCH /servers/{id}` en Server-Roles PR #96), sincronización en tiempo real por el inbox (`SERVER_UPDATED` en Chat, [ADR 0013](docs/architecture/decisions/0013-cambios-de-servidor-en-vivo.md)) e interfaz en web (WebApp PR #80). Resta habilitar la edición de nombre, descripción y banner en mobile.
+- **Registro de auditoría de moderación [Op#61]**: permiso `VIEW_AUDIT_LOG` (bit 23) y eventos enriquecidos en Server-Roles (PR #97), evento `message.deleted_by_moderator` en Chat, consumidor y endpoint en Notification (PR #26, `ADR-04`), ruta en Kong (Gateway PR #28) y visor con filtros y diff en web y mobile (WebApp PR #82).
+- **Estado de la plataforma e incidentes [Op#74, parcial]**: publicación y resolución de incidentes con migraciones y sugerencia automática desde `/readyz` en Notification (PR #25, `ADR-03`), Gateway (PR #27), backoffice (`status.incidents`) y banner/modal en web (WebApp PR #81). Resta mostrar el aviso en mobile.
+- **Eliminar servidor [Op#40]**: `DELETE /servers/{id}` en Server-Roles (PR #94) con borrado en cascada en Postgres, borrado de icono en S3 y evento en RabbitMQ para Chat. Modal de confirmación y redirección en web y mobile (WebApp PR #78).
+- **Gráfico de evolución de miembros [Op#72]**: tabla append-only `ServerMemberEvent` y endpoint `GET /servers/{id}/metrics/member-growth` en Server-Roles (PR #95), y componente `MemberGrowthChart` en web y mobile (WebApp PR #79). Ver [ADR 0012](docs/architecture/decisions/0012-metricas-crecimiento-miembros.md).
+- **Métricas globales de la plataforma [Op#71]**: `GET /api/v1/admin/metrics?from&to` (staff) en Notification (PR #27), consultando a Chat (`/internal/metrics/messages`, PR #52) y Server-Roles (`/internal/metrics/servers`, PR #101), ruta `admin-metrics` en Kong (PR #30) y pantalla en el backoffice (WebApp PR #85). Ver [ADR 0014](docs/architecture/decisions/0014-metricas-globales-de-la-plataforma.md).
+- **Métricas de actividad de un servidor [Op#70]**: `GET /api/v1/servers/:serverId/metrics` en Notification (PR #28) con endpoints internos en Chat (PR #55) y Server-Roles (PR #103), ruta en Kong (PR #32), variables en `docker-compose.yml` (orquestador PR #36) y gráficos/tarjetas en ajustes del servidor en web y mobile (WebApp PR #89).
+- **Llamadas de voz privadas [Op#50, Op#54]**: llamadas 1 a 1 sobre LiveKit (`call-<uuid>`), autorización delegada a Chat (`/internal/conversations/:id/call-access`) y aviso por el inbox en Voice (PR #44), Chat y WebApp (PR #87, audio y cámara en web y mobile). Ver [ADR 0015](docs/architecture/decisions/0015-llamadas-privadas.md).
 
 **Decisiones:**
 - Arquitectura de métricas de crecimiento basada en tabla append-only `server_member_events` calculada bajo demanda, sin requerir cron jobs pesados. Ver [ADR 0012](docs/architecture/decisions/0012-metricas-crecimiento-miembros.md).
-- Métricas globales consultadas en el momento a Chat y Server-Roles, en vez de eventos y contadores en Notification (lo planeado en el checkpoint 3): Chat no tiene outbox y un evento por mensaje es el volumen más alto del sistema. Usuario activo = envió al menos un mensaje en el período. Ver [ADR 0014](docs/architecture/decisions/0014-metricas-globales-de-la-plataforma.md).
+- Cambios de configuración del servidor propagados por el inbox de Chat (`SERVER_UPDATED`) para invalidar `['servers']` en vivo sin polling. Ver [ADR 0013](docs/architecture/decisions/0013-cambios-de-servidor-en-vivo.md).
+- Métricas globales consultadas en el momento a Chat y Server-Roles, en vez de eventos y contadores en Notification. Ver [ADR 0014](docs/architecture/decisions/0014-metricas-globales-de-la-plataforma.md).
+- Llamadas privadas 1 a 1 en una sala de LiveKit separada, delegando la autorización en Chat y reutilizando el inbox del cliente. Ver [ADR 0015](docs/architecture/decisions/0015-llamadas-privadas.md).
 
 ---
 
-## Estado del backlog al 10/11
+## Estado del backlog al 14/11
 
-**Obligatorias:** faltan 4 de 32 (8 pts), las cuatro del backoffice.
-- Suspender y reactivar usuarios [O#29, O#30].
-- Listado de usuarios [O#31] y de servidores [O#32].
+**Obligatorias:** **32 / 32 hechas (104 pts)**. Se completaron las cuatro del backoffice ([O#29–O#32]).
 
 **RNF que faltan:**
-- endpoints de staff del backoffice (la app y el rol `staff` ya están);
-- S3 para los adjuntos de Chat en producción;
-- pruebas de carga;
-- contratos OpenAPI de los servicios en Node, y su verificación;
+- S3 para los adjuntos de Chat en producción (`deploy/docker-compose.yml` y Terraform);
+- pruebas de carga con k6 y su documentación;
+- contratos OpenAPI verificados para los servicios en Node;
 - cobertura ≥ 70 % medida por servicio;
-- proteger `main` (no se puede con el plan Free en repos privados).
+- proteger `main` (limitado por el plan Free de GitHub en repos privados).
 
-**Optativas hechas:** login con proveedor federado [Op#33], 2FA [Op#35], estado personalizado [Op#38],
-eliminar servidor [Op#40], reordenar canales [Op#41], menciones [Op#46], adjuntar archivos en mensajes [Op#47],
-indicador de quién habla [Op#51], silenciar a otro localmente [Op#52], video en llamada [Op#54],
-eliminar rol [Op#55], reordenar jerarquía de roles [Op#56], ver miembros por rol [Op#58], expulsar miembro [Op#59],
-silenciar temporalmente [Op#60] y gráfico de crecimiento de miembros [Op#72]. Suman 61 pts. Con las 28 obligatorias (96 pts),
-el total es 157 pts.
+**Optativas hechas (✅):** login con proveedor federado [Op#33], 2FA [Op#35], perfil público [Op#36],
+estado personalizado [Op#38], configuración del servidor [Op#39], eliminar servidor [Op#40], reordenar canales
+[Op#41], mensajes directos (DM) [Op#42], bloqueo y desbloqueo [Op#43], editar mensaje [Op#44], eliminar mensaje
+[Op#45], menciones [Op#46], adjuntar archivos en mensajes [Op#47], reacciones con emoji [Op#48], llamadas de
+voz privadas [Op#50], indicador de quién habla [Op#51], silenciar a otro localmente [Op#52], video en llamada
+[Op#54], eliminar rol [Op#55], reordenar jerarquía de roles [Op#56], ver miembros por rol [Op#58], expulsar miembro
+[Op#59], silenciar temporalmente [Op#60], registro de auditoría de moderación [Op#61], eliminar servidor desde el
+backoffice [Op#68], suspender servidor completo [Op#69], métricas de actividad de un servidor [Op#70], métricas
+globales [Op#71], gráfico de crecimiento de miembros [Op#72] y estado de la plataforma e incidentes [Op#74].
+Suman **127 pts**. Con las 32 obligatorias (104 pts), el total confirmado es **231 pts** (superando el mínimo
+exigido de 216 pts por 15 pts de margen).
 
-**Optativas en curso:** visualización de perfil público [Op#36], configuración del servidor [Op#39], mensajes directos [Op#42], bloqueo y desbloqueo [Op#43], permisos por canal [Op#57] y estado de la plataforma [Op#74], parciales.
+**Optativas abiertas en el backlog:** permisos por canal [Op#57] (5 pts, issue abierto Server-Roles #18) y exportar
+métricas a CSV [Op#73] (3 pts, issue abierto observabilidad #10).
