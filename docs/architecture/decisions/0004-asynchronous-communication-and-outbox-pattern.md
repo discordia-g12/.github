@@ -103,6 +103,10 @@ El diseño aplica la sinergia de ambos patrones:
 | **Boost Aplicado** | `Payments Service`| `payment.boost.applied` | `Server`, `Notification` | • `Server`: Sube nivel del servidor y desbloquea límites de audio/emojis.<br>• `Notif`: Alerta a los administradores del servidor. |
 | **Usuario Suspendido** | `Auth Service` (Staff) | `user.account.suspended` | `Chat`, `Voice`, `Server` | • Revoca tokens y desconecta al usuario de toda la plataforma. |
 
+> **Nota (11/2026):** `chat.message.created` se implementó con el contrato y la división de responsabilidades
+> del [ADR 0017](0017-notificaciones-in-app.md). Hoy sale para las respuestas de hilo; las menciones y los DMs
+> se suman con la épica de notificaciones. Chat usa un outbox en el propio mensaje (Mongo), no una tabla.
+
 ---
 
 ## 3. Patrones Complementarios de Resiliencia y Consistencia
