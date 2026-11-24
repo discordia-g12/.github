@@ -30,14 +30,23 @@ forma que la épica sume casos sin cambiar el contrato.
   preferencias.
 
 ### El evento `chat.message.created`
-- Va al exchange `server.events`, como el resto de los eventos de dominio. Hoy solo sale cuando el mensaje es
-  una respuesta de hilo con alguien a quien avisar.
+- Va al exchange `server.events`, como el resto de los eventos de dominio. Sale para cada mensaje de DM, cada
+  mensaje de canal de servidor (con o sin menciones, para el nivel `all`) y cada respuesta de hilo con alguien
+  a quien avisar.
 - El contrato es general, para que las historias de la épica lo reutilicen sin versionarlo:
 
   ```
   event_id, event_type, server_id (null en un DM), channel_id, thread_id (o null), message_id, author_id,
   thread_participant_ids, mention_user_ids, mention_role_ids, mention_everyone, is_dm, preview (140), created_at
+  recipient_ids (opcional)
   ```
+
+- `thread_id` es null fuera de un hilo y `thread_participant_ids` va vacío.
+- `recipient_ids` es el único campo sumado al contrato: solo viaja en un mensaje de DM (no en una respuesta de
+  hilo) y lleva los participantes de la conversación menos el autor. Un consumidor que no lo conoce lo ignora.
+  No se reutilizó `thread_participant_ids` para no cambiarle el significado.
+- En un canal de servidor Chat no nombra destinatarios: los mencionados van en `mention_*` y quién pidió `all`
+  lo busca Notification en sus preferencias.
 
 - **No se pierde (outbox de Chat).** Lo pendiente se guarda en la propia respuesta (`outbox`), en la misma
   escritura del documento, que en Mongo es atómica. Se publica con *publisher confirms*. Lo que no se confirmó lo
@@ -85,12 +94,13 @@ forma que la épica sume casos sin cambiar el contrato.
   (modo de transición, ver `deploy/README.md` del orquestador). Hay que cargarlo y después volverlo obligatorio.
 - Las DLQs no se vacían solas: hay que revisarlas desde el panel de RabbitMQ.
 - Puntos de extensión para la épica, sin cambiar el contrato:
-  - **Menciones y DMs:** Chat publica `chat.message.created` también para esos mensajes, y Notification suma
-    candidatos con `reason` `mention` y `dm` (el esquema ya los acepta). `@everyone` y las menciones de rol no
+  - **Menciones, DMs y nivel `all`:** Chat ya publica `chat.message.created` para todos esos mensajes (ver
+    arriba). Notification suma candidatos con `reason` `mention` y `dm`. `@everyone` y las menciones de rol no
     pueden viajar como lista: Notification tendrá que pedir los miembros a Server-Roles.
   - **Silenciar canal o servidor y preferencias por canal:** el modelo y la resolución ya los cubren. Falta la
     interfaz.
   - **Push:** un paso más en la entrega de Notification, con tokens de dispositivo y `push_enabled` por usuario.
   - **Centro de notificaciones:** es la misma bandeja, que ya tiene historial y estado vacío.
-- El nivel `all` en canales activos multiplica los eventos en RabbitMQ (nodo infra, `t3.micro`): hay que medirlo
-  antes de activarlo.
+- Un evento por mensaje de usuario (no por destinatario): RabbitMQ recibe tantos `chat.message.created` como
+  mensajes se escriben (nodo infra, `t3.micro`). Hay que medirlo con carga real; el costo de fan-out queda en
+  Notification.

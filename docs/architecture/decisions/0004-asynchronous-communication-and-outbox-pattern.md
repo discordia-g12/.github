@@ -104,8 +104,8 @@ El diseño aplica la sinergia de ambos patrones:
 | **Usuario Suspendido** | `Auth Service` (Staff) | `user.account.suspended` | `Chat`, `Voice`, `Server` | • Revoca tokens y desconecta al usuario de toda la plataforma. |
 
 > **Nota (11/2026):** `chat.message.created` se implementó con el contrato y la división de responsabilidades
-> del [ADR 0017](0017-notificaciones-in-app.md). Hoy sale para las respuestas de hilo; las menciones y los DMs
-> se suman con la épica de notificaciones. Chat usa un outbox en el propio mensaje (Mongo), no una tabla.
+> del [ADR 0017](0017-notificaciones-in-app.md). Sale para cada mensaje de DM, de canal de servidor y cada
+> respuesta de hilo. Chat usa un outbox en el propio mensaje (Mongo), no una tabla.
 
 ---
 
